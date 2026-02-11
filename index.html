@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal Corporativo - Acceso Administrativo v10.0</title>
+    <title>Portal Corporativo - Acceso Administrativo v10.2</title>
     <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;700&family=Share+Tech+Mono&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -84,16 +84,16 @@
         }
 
         .auth-btn {
-            background: var(--primary); color: [data-theme="light"] ? #fff : #000; 
+            background: var(--primary); 
+            color: #000; /* Texto negro para contraste con verde neón */
             border: none; padding: 12px;
             font-weight: bold; cursor: pointer; width: 100%; letter-spacing: 2px;
             text-transform: uppercase; font-family: var(--font-tech);
             border-radius: 4px; transition: 0.3s;
         }
         
-        /* Ajuste específico para el botón en modo dark */
-        body:not([data-theme="light"]) .auth-btn { color: #000; }
-        body[data-theme="light"] .auth-btn { color: #fff; }
+        /* Ajuste específico para el botón en modo claro */
+        [data-theme="light"] .auth-btn { color: #fff; }
 
         .auth-btn:hover { opacity: 0.8; }
 
@@ -179,14 +179,18 @@
 
         .social-btn {
             background: rgba(128,128,128,0.1); color: var(--text-muted); padding: 8px 12px;
-            text-decoration: none; font-size: 0.9rem; display: flex; align-items: center;
+            text-decoration: none; font-size: 0.8rem; display: flex; align-items: center;
             border-radius: 4px; transition: 0.2s; border: 1px solid transparent;
+            font-family: var(--font-tech); /* Fuente técnica para el nombre */
         }
         .social-btn:hover { 
             background: var(--btn-hover); 
             color: var(--btn-hover-text);
             border-color: var(--text-muted);
         }
+        
+        /* Espacio entre icono y texto */
+        .social-btn i { margin-right: 8px; font-size: 1rem; }
 
         /* Colores específicos de marcas (funcionan en ambos temas) */
         .fb:hover { border-color: #1877F2; background: #1877F2; color: white !important; }
@@ -213,7 +217,7 @@
         <div class="auth-box">
             <i class="fas fa-lock" style="font-size: 3rem; color: #ff3333; margin-bottom: 20px;"></i>
             <h2 style="color:var(--text-main); margin-bottom: 10px; font-family: var(--font-tech);">PORTAL CORPORATIVO</h2>
-            <p style="color:var(--text-muted); font-size: 0.8rem; margin-bottom: 25px;">ÁREA ELECTORAL v10.0</p>
+            <p style="color:var(--text-muted); font-size: 0.8rem; margin-bottom: 25px;">ÁREA ELECTORAL v10.2</p>
             <input type="password" id="pass" class="auth-input" placeholder="CLAVE DE ACCESO">
             <button class="auth-btn" onclick="checkAuth()">AUTORIZAR</button>
             <p id="error" style="color:#ff3333; display:none; margin-top:15px; font-weight:bold;">CLAVE INCORRECTA</p>
@@ -344,7 +348,6 @@
             }
         }
 
-        // --- 3. BASE DE DATOS (Actualizada con enlace de Ruth Zenaida) ---
         const db = [
             {
                 party: "PARTIDO CÍVICO OBRAS",
@@ -775,14 +778,19 @@
                 c.links.forEach(link => {
                     let icon = 'fa-globe';
                     let css = '';
-                    if(link.toLowerCase().includes('facebook')) { icon = 'fa-facebook'; css = 'fb'; }
-                    else if(link.toLowerCase().includes('x.com') || link.toLowerCase().includes('twitter')) { icon = 'fa-x-twitter'; css = 'x'; }
-                    else if(link.toLowerCase().includes('instagram')) { icon = 'fa-instagram'; css = 'ig'; }
-                    else if(link.toLowerCase().includes('tiktok')) { icon = 'fa-tiktok'; css = 'tk'; }
-                    else if(link.toLowerCase().includes('linkedin')) { icon = 'fa-linkedin'; css = 'li'; }
-                    else if(link.toLowerCase().includes('youtube')) { icon = 'fa-youtube'; css = 'yt'; }
+                    let label = 'Web'; // Variable para el nombre
 
-                    socialHtml += `<a href="${link}" target="_blank" class="social-btn ${css}"><i class="fab ${icon}"></i></a>`;
+                    const lowerLink = link.toLowerCase();
+
+                    if(lowerLink.includes('facebook')) { icon = 'fa-facebook'; css = 'fb'; label = 'Facebook'; }
+                    else if(lowerLink.includes('x.com') || lowerLink.includes('twitter')) { icon = 'fa-x-twitter'; css = 'x'; label = 'X'; }
+                    else if(lowerLink.includes('instagram')) { icon = 'fa-instagram'; css = 'ig'; label = 'Instagram'; }
+                    else if(lowerLink.includes('tiktok')) { icon = 'fa-tiktok'; css = 'tk'; label = 'TikTok'; }
+                    else if(lowerLink.includes('linkedin')) { icon = 'fa-linkedin'; css = 'li'; label = 'LinkedIn'; }
+                    else if(lowerLink.includes('youtube')) { icon = 'fa-youtube'; css = 'yt'; label = 'YouTube'; }
+
+                    // AQUI ESTA EL CAMBIO: Se agrega ${label} para mostrar el nombre
+                    socialHtml += `<a href="${link}" target="_blank" class="social-btn ${css}"><i class="fab ${icon}"></i> ${label}</a>`;
                 });
             } else {
                 socialHtml += '<span style="font-size:0.7rem; color:var(--text-muted);">Sin huella digital</span>';
